@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+  <title>3dcard</title>
+  <link rel="stylesheet" href="./3dcard.css">
+</head>
+
+<body>
+  <div class="container" id="frame">
+    <a href="#" class="card" id="card">
+      
+      <div class="item" id="light"></div>
+    </a>
+  </div>
+  <script>
+
+    const frame = document.getElementById('frame');
+    const card = document.getElementById('card');
+    const light = document.getElementById('light');
+    const container = document.querySelector('.container');
+    
+    let { x, y, width, height } = frame.getBoundingClientRect();
+    container.addEventListener("mousemove", (e) => {
+       // 마우스 좌표값 가져오기
+       let mousePageX = e. offsetX;
+        let mousePageY = e. offsetY;
+
+        // 마우스 좌표값 기준점을 가운데로 변경
+        let centerPageX = 200/2 - mousePageX;
+        let centerPageY = 200/2 - mousePageY;
+
+        // centerPage 최소값 -100 최대값 100 설정 (! Point)
+        let maxPageX = Math.max(-200, Math.min(100, centerPageX));
+        let maxPageY = Math.max(-200, Math.min(100, centerPageY));
+
+        // 각도 줄이는 설정
+        let anglePageX = maxPageX * 0.7;
+        let anglePageY = maxPageY * 0.7;
+
+        // 부드럽게 설정
+        let softPageX = softPageY = 0;
+        softPageX += (anglePageX - softPageX)* 0.3;
+        softPageY += (anglePageY - softPageY)* 0.3;
+
+      card.style.transform = "perspective(1000px)  translateY(-10px) rotateX(" + softPageY + "deg) rotateY(" + -softPageX + "deg)"
+    });
+
+    function mouseMove(e) {
+      const left = e.clientX - x;
+      const top = e.clientY - y;
+      const centerX = left - width / 2;
+      const centerY = top - height / 2;
+      const d = Math.sqrt(centerX ** 2 + centerY ** 2);
+
+      card.style.boxShadow = `
+    ${-centerX / 10}px ${-centerY / 10}px 10px rgba(0, 0, 0, 0.1)
+  `;
+
+      
+
+      light.style.backgroundImage = `
+    radial-gradient(
+      circle at ${left}px ${top}px, #00000010, #ffffff00, #ffffff50
+    )
+  `;
+    }
+
+    frame.addEventListener('mouseenter', () => {
+      frame.addEventListener('mousemove', mouseMove);
+    });
+
+    frame.addEventListener('mouseleave', () => {
+      frame.removeEventListener('mousemove', mouseMove);
+      card.style.boxShadow = '';
+      card.style.transform = '';
+      light.style.backgroundImage = '';
+    });
+
+    window.addEventListener('resize', () => {
+      rect = frame.getBoundingClientRect();
+      x = rect.x;
+      y = rect.y;
+    });
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,31 @@
+@charset "utf-8";
+.container{
+  width: 200px;
+  margin: 500px auto;
+}
+.card {
+  
+  /* min-height: 80vh; */
+  width: 200px;
+  border-radius: 8px;
+  
+  box-shadow: 0 20px 20px rgba(0,0,0,.2), 0 0 50px rgba(0,0,0,.05);
+  transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
+  transition: all .5s ease;
+  -webkit-transition: all .5s ease;
+  overflow: hidden;
+  
+}
+
+
+.item a{
+  display: block;
+}
+.item img {
+  width: 100%;
+  z-index: 2;
+  transition: all .75s ease-out;
+  -webkit-transition: all .75s ease-out;
+  vertical-align: top;
+}
